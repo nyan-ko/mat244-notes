@@ -1,5 +1,9 @@
 \documentclass{article}
 \usepackage[a4paper, total={6in, 8in}]{geometry} % text area 6in x 8in
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\newcommand{\R}{\mathbb{R}}
 
 \title{MAT244, Maximilian Klambauer\\Introduction to Differential Equations }
 \author{}
@@ -23,5 +27,111 @@ Solved by integrating factors. $\mu(t)=\exp\big(\int p(t) dt\big)$
 \subsection{Questions}
 TBD
 
-\section{TBD}
-\end{document}
+\section{Existence \& Uniqueness}
+Suppose that $f(t,y)$ is a cont. function defined on an open domain $D \subseteq \R$ with $(t_0, \alpha_0) \in D$. Further suppose that f is Lipschitz w.r.t y. Then there is an open interval $I \subset \R$ with $t_0 \in I$ and a continuously differentiable function $\phi : I \to \R$ that solves $y' = f(t,y), y(t_0) = \alpha_0$. (Existence)
+
+Furthermore, if $\psi : I \to \R$ is any other continuously differentiable function that solves the above, then $\psi = \psi$. (Uniqueness)
+
+Lipschitz: $|f(t, y_1) - f(t,y_2)| \leq L|y_1 - y_2|$.
+
+Lipschitz is a condition stronger than continuous but weaker than differentiable. If $\frac{\partial f}{\partial y}$ exists and is continuous, then $f$ is Lipschitz w.r.t. $y$.
+
+Lipschitz is a condition for ensuring "niceness" of a function. 
+
+Example:
+\begin{gather}
+    f(y)=\frac{3}{2}y^{\frac{1}{3}}
+    \implies \frac{\partial f}{\partial y} = \frac{1}{2} y ^{\frac{-2}{3}}
+    \intertext{(2) blows up at 0: vertical tangent near 0, cannot be contained within Lipschitz bounds. Thus, $f$ does not satisfy niceness around 0.}
+\end{gather}
+Above, $f$ is separable.
+
+Generally, existence-uniqueness fails when no solutions exist, or they exist but are not unique.
+
+In this example, $y(0) =0$ makes the equation fail uniqueness. Multiple solutions exist for $y(0)=0$. (?)
+
+Example 2:
+\begin{gather}
+y' = f(t,y) = 1 +y^2, y(0) = 0
+\end{gather}
+
+Note: Separable ODE and can be solved as such. Note that $\frac{\partial f}{\partial y} = 2y$, which is continuous, so we can expect to solve this ODE uniquely. It has a solution $y(t) = \tan(t)$ which is defined on the interval $(-\pi/2, \pi/2)$
+
+\section{SODEs}
+
+$y''=f(t,y,y')$. Need to specify $y(t_0) = \alpha_0, y'(t_0) = \alpha_1$ an initial value problem.
+
+Theorem: E\&U for SODEs
+$y'' + p_1(t)y' + p_2(t)y = g(t)$
+
+Suppose that $p_1, p_2, g$ are continuous on an open interval $I$, $t_0 \in I$, and $\alpha_0, \alpha_1 \in \R$, then there is a unique solution to the above equation with $y(t_0)=\alpha_0, y(t_1)=\alpha_1$.
+
+For this course, we will pay special attention to constant coefficient ODEs, i.e. $ay'' + by' = g(t), a,b,c \in \R, a\neq 0 $. Through variation of parameters, we can deal with the homegeneous equation $ay'' + by' + cy = 0$.
+
+Example:
+$y'' + 3y' - 4y = 0$
+
+We will try to solve this with an educated guess: $y=e^{rt}$ for some unknown constant. Plugging into the equation, we get that $r^2 + 3r-4 = 0$ for some $r$. This is a quadratic equation, so we can solve for $r$ using the quadratic formula. We get that $r = -4, r=1$. Thus, $y_1 = e^{-4t}, y_2 = e^{t}$ are solutions to the ODE.
+
+More generally, guess $y=e^{rt}$ for the SODE $ay'' + by' + cy=0$ which will be a solution iff $ar^2 + br + c =0$. This is called the characteristic equation of the ODE.
+
+Theorem: suppose $p_1(t), p_2(t)$ are continuous on an open interval $I$, then the set of solutions to the ODE $y'' + p_1(t)y' + p_2(t)y = 0$ is a 2-dimensional subspace of $C^2(I)$. $C^k(I)$ is the set of $k$-times continuously differentiable functions on $I$. Being a linear ODE gives the solutions a linear structure. 
+
+A fundamental set of solutions to the ODE is a basis for the set of solutions to the ODE, i.e. a set of solutions $\{y_1, y_2\}$ such that any other solution $y$ can be written as a linear combination of $y_1, y_2$.
+
+Essentially, the given equation is an operation on $y$ that produces some function $y$. (?)
+
+Differential operation:
+$L[y] = y'' + p_1(t)y' + p_2(t)y$
+
+and the given equation is $L[y] = 0$.
+
+Note that L is linear, i.e. $L[\lambda_1y+\lambda_2y]=\lambda_1L[y] + \lambda_2L[y]$ which implies its solutions are a vector space. E\&U theorem specifies an isomorphism between the set of solutions and $\R^2$, whatever that means.
+
+Example:
+$y'' + 3y'-4y=0$ has solutions $e^{-4t}, e^{t}$. More solutions would be $c_1e^{-4t},c_2e^t$ from the linear structure of the solutions.
+
+Is $\{e^{-4t}, e^t\}$ the fundamental set of solutions?
+
+Suppose $\phi(t)$ is the solution with $y(0) = \alpha_0, y'(0) = \alpha_1$. Say $\psi(t) = c_1e^{-4t} + c_2e^t$. Then $\psi(0)=c_1 + c_2, \psi'(0) = -4c_1 + c_2$. We will solve $c_1 + c_2 = \alpha_0, -4c_1 + c_2 = \alpha_1$.
+
+\dots
+
+So, $\psi(t) = \frac{1}{5}(\alpha_0 - \alpha_1) e^{-4t} + \frac{1}{5}(4\alpha_0 - \alpha_1)e^t$.
+
+Solve $y(0)=\alpha_0, y'(0)=\alpha_1$, which implies $\phi(t)=\psi(t)$. More generally, the fundamental set of solutions for a constant coefficient SODE is its characteristic polynomial.
+
+How to check if a set of solutions is the fundamental set?
+
+Use Wronskian operations:
+
+W: function x function $\to$ function
+
+$W[y_1, y_2](t)$
+$=\det(\begin{bmatrix} y_1 & y_2 \\ y_1' & y_2' \end{bmatrix})$
+
+If $W[y_1,y_2] \neq 0$, then $\{y_1, y_2\}$ is lienarly independent. The converse is not true.
+
+Theorem: suppose $p_1(t),p_2(t)$ are continuous on open interval $I$, and $\phi_1, \phi_2$ solve $y'' + p_1(t)y' + p_2(t)y = 0$. Then, the following are equivalent:
+
+\begin{enumerate}
+    \item $\{\phi_1, \phi_2\}$ are a fundamental set of solutions.
+    \item $\begin{bmatrix}
+        \phi_1(t_0) & \phi_2(t_0) \\
+        \phi_1'(t_0) & \phi_2'(t_0)
+        \end{bmatrix}$
+        is an invertible matrix for some $t_0 \in I$. Justification? Consider characteristic polynomial example, essentially multiplying by this matrix, and solve for arbitrary solutions as combinations of the fundamental set.
+    \item $W[\phi_1, \phi_2](t_0) \neq 0 $ for some $t_0 \in I$ (follows from above equivalence).
+    \item $W[\phi_1, \phi_2](t) \neq 0$ for all $t \in I$.
+    \item if $\psi_1, \psi_2$ solve as well, then $W[\psi_1, \psi_2]=kW[\phi_1, \phi_2]$ for some $k\in\R$.
+\end{enumerate}
+
+Essentially, Wronskian is a tool that tells us whether we have the fundamental set of solutions. (2) and (3) are most useful for this purpose.
+
+Motivation: it's very difficult to solve arbitrary 2nd diff. eqns., but we can calculate their Wronskian fairly simply.
+
+Abel's formula:
+
+If $\phi_1, \phi_2$ solve $y'' + p_1(t)y' + p_2(t)y = 0$, then $W[\phi_1, \phi_2] = C \exp(-\int p_1(t)dt)$ where C is the determinant mess.
+
+\end{document} 
